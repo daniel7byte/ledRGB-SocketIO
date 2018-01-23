@@ -47,6 +47,9 @@ let setStateColor = function(state) {
 io.on('connection', function(client) {
   client.on('join', function(handshake) {
     console.log(handshake);
+
+    // Emite la informacion que ya está guardada en la variable al navegador
+    client.emit('defaultValues', state);
   });
 
   // Set initial state
@@ -63,13 +66,18 @@ io.on('connection', function(client) {
     state.green = data.color === 'green' ? data.value : state.green;
     state.blue = data.color === 'blue' ? data.value : state.blue;
 
-    console.log(led);
+    console.log(led);// El antes
     // Set the new colors
     setStateColor(state);
-    console.log(led);
+    console.log(led);// El despues
 
-    // QUE ES
-    client.emit('rgb', data);
+    // Emite la informacion al cliente
+    // client.emit('rgb', data); // No se tiene que usar este
+    /*
+    "Broadcasting means sending a message to everyone else except for the socket that starts it."
+    Este sirve, para cuando tenemos un enviar informacion pero en el servidor tenermos un listener como en este caso
+    con "client.on('rgb', function(data) {" así no tendremos que escuchar lo mismo
+    */
     client.broadcast.emit('rgb', data);
   });
 

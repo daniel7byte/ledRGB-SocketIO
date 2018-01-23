@@ -43,6 +43,11 @@ five.Board().on('ready', function() {
   io.on('connection', function(client) {
     client.on('join', function(handshake) {
       console.log(handshake);
+      /*
+      Emite la informacion que ya está guardada en el servidor al cliente
+      para posteriormente ponerla en los campos
+      */
+      client.emit('defaultValues', state);
     });
 
     // Set initial state

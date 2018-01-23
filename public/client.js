@@ -23,4 +23,23 @@
     var color = data.color;
     document.getElementById(color).value = data.value;
   });
+
+  // PONDRÁ LOS VALORES POR DEFECTO DE SERVIDOR
+  socket.on('defaultValues', function(data) {
+
+    // informacion
+    // console.log(data);
+
+    // key es el nombre de la llave o puesto del objeto
+    for (var key in data) {
+
+      /*
+      console.log(key);       //puesto, nombre del color
+      console.log(data[key]); // Llave del color
+      */
+
+      var color = key;
+      document.getElementById(color).value = data[key];
+    }
+  });
 }());
